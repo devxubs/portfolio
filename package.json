@@ -14,8 +14,12 @@
     "@types/react-dom": "18.2.7",
     "eslint": "8.49.0",
     "eslint-config-next": "13.4.19",
+    "naxui": "^1.1.6",
+    "naxui-icons": "^1.0.5",
+    "naxui-manager": "^1.4.9",
     "next": "13.4.19",
     "react": "18.2.0",
+    "react-browser-scrollbar": "^1.1.5",
     "react-dom": "18.2.0",
     "typescript": "5.2.2"
   }
