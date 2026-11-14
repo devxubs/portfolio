@@ -1,98 +1,74 @@
-import { useEffect } from "react";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import HoverLinks from "./HoverLinks";
-import { gsap } from "gsap";
-import { ScrollSmoother } from "gsap/ScrollSmoother";
-import "./styles/Navbar.css";
+import { useEffect, useState } from "react";
+import { Code2, Download, Menu, X } from "lucide-react";
 
-try {
-   gsap.registerPlugin(ScrollSmoother, ScrollTrigger);
-} catch (e) {
-   console.warn("ScrollSmoother plugin not available:", e);
-   gsap.registerPlugin(ScrollTrigger);
-}
-export let smoother: ScrollSmoother | undefined;
+const links = [
+  { label: "Home", href: "#home" },
+  { label: "About", href: "#about" },
+  { label: "Skills", href: "#skills" },
+  { label: "Projects", href: "#projects" },
+  { label: "Experience", href: "#experience" },
+  { label: "Contact", href: "#contact" },
+];
 
-const Navbar = () => {
-   useEffect(() => {
-      try {
-         smoother = ScrollSmoother.create({
-            wrapper: "#smooth-wrapper",
-            content: "#smooth-content",
-            smooth: 1.7,
-            speed: 1.7,
-            effects: true,
-            autoResize: true,
-            ignoreMobileResize: true,
-         });
+export default function Navbar() {
+  const [open, setOpen] = useState(false);
+  const [active, setActive] = useState("home");
 
-         smoother.scrollTop(0);
-         smoother.paused(true);
-      } catch (e) {
-         console.warn("ScrollSmoother initialization failed:", e);
+  useEffect(() => {
+    const ids = links.map((l) => l.href.slice(1));
+    const onScroll = () => {
+      let current = "home";
+      for (const id of ids) {
+        const el = document.getElementById(id);
+        if (el && el.getBoundingClientRect().top <= 120) current = id;
       }
+      setActive(current);
+    };
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
-      const links = document.querySelectorAll(".header ul a");
-      links.forEach((elem) => {
-         const element = elem as HTMLAnchorElement;
-         element.addEventListener("click", (e) => {
-            if (window.innerWidth > 1024) {
-               e.preventDefault();
-               const elem = e.currentTarget as HTMLAnchorElement;
-               const section = elem.getAttribute("data-href");
-               if (smoother) smoother.scrollTo(section, true, "top top");
-            }
-         });
-      });
-      window.addEventListener("resize", () => {
-         try {
-            ScrollSmoother.refresh(true);
-         } catch (e) {
-            console.log(e);
+  return (
+    <header className="nav">
+      <div className="container nav-inner">
+        <a href="#home" className="logo" aria-label="DevXub home">
+          <span className="logo-icon">
+            <Code2 size={26} strokeWidth={2.4} />
+          </span>
+          dev<em>xub</em>
+        </a>
 
-            /* ignore */
-         }
-      });
-   }, []);
-   return (
-      <>
-         <div className="header">
-            <a href="/#" className="navbar-title" data-cursor="disable">
-               DX
-            </a>
-            {/* <a
-               href="https://www.linkedin.com/in/syed-hassan-dildar-b40649400"
-               className="navbar-connect"
-               data-cursor="disable"
-               target="_blank"
-               rel="noreferrer"
-            >
-               linkedin.com/in/syed-hassan-dildar
-            </a> */}
-            <ul>
-               <li>
-                  <a data-href="#about" href="#about">
-                     <HoverLinks text="ABOUT" />
-                  </a>
-               </li>
-               <li>
-                  <a data-href="#work" href="#work">
-                     <HoverLinks text="WORK" />
-                  </a>
-               </li>
-               <li>
-                  <a data-href="#contact" href="#contact">
-                     <HoverLinks text="CONTACT" />
-                  </a>
-               </li>
-            </ul>
-         </div>
+        <nav aria-label="Primary">
+          <ul className={`nav-links${open ? " open" : ""}`}>
+            {links.map((l) => (
+              <li key={l.href}>
+                <a
+                  href={l.href}
+                  className={active === l.href.slice(1) ? "active" : ""}
+                  onClick={() => setOpen(false)}
+                >
+                  {l.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
 
-         <div className="landing-circle1"></div>
-         <div className="landing-circle2"></div>
-         <div className="nav-fade"></div>
-      </>
-   );
-};
-
-export default Navbar;
+        <div className="nav-actions">
+          <a className="btn btn-primary btn-sm nav-cv" href="/Xubayer_Ahmed_CV.pdf" download>
+            <Download size={16} /> Download CV
+          </a>
+          <button
+            className="nav-toggle"
+            aria-label={open ? "Close menu" : "Open menu"}
+            aria-expanded={open}
+            onClick={() => setOpen((v) => !v)}
+          >
+            {open ? <X size={20} /> : <Menu size={20} />}
+          </button>
+        </div>
+      </div>
+    </header>
+  );
+}

@@ -1,76 +1,44 @@
-import { MdArrowOutward, MdCopyright } from "react-icons/md";
-import "./styles/Contact.css";
+import { ArrowRight, Mail, MapPin, Phone } from "lucide-react";
 
-const Contact = () => {
-   return (
-      <div className="contact-section section-container" id="contact">
-         <div className="contact-container">
-            <h3>Contact</h3>
-            <div className="contact-flex">
-               <div className="contact-box">
-                  <h4>Connect</h4>
-                  <p>
-                     <a
-                        href="https://www.linkedin.com/in/devxub"
-                        target="_blank"
-                        rel="noreferrer"
-                        data-cursor="disable"
-                     >
-                        LinkedIn — devxub
-                     </a>
-                  </p>
-                  <p>
-                     <a href="mailto:devxub@gmail.com" data-cursor="disable">
-                        Email — devxub@gmail.com
-                     </a>
-                  </p>
-                  {/* <h4>Education</h4>
+const items = [
+  { icon: Mail, title: "Email", value: "devxub@gmail.com", href: "mailto:devxub@gmail.com" },
+  { icon: Phone, title: "Phone", value: "+880 1325-584606", href: "tel:+8801325584606" },
+  { icon: MapPin, title: "Location", value: "Dhaka, Bangladesh", href: null },
+];
+
+export default function Contact() {
+  return (
+    <section className="section" id="contact">
+      <div className="container">
+        <div className="contact-card">
+          <div>
+            <h3>Let's Work Together</h3>
             <p>
-              Computer Science (Web & App Development), Abasyn University — 2024–2028
-            </p> */}
-               </div>
-               <div className="contact-box">
-                  <h4>Social</h4>
-                  <a
-                     href="https://github.com/devxubs"
-                     target="_blank"
-                     rel="noreferrer"
-                     data-cursor="disable"
-                     className="contact-social"
-                  >
-                     GitHub <MdArrowOutward />
-                  </a>
-                  <a
-                     href="https://www.linkedin.com/in/devxub"
-                     target="_blank"
-                     rel="noreferrer"
-                     data-cursor="disable"
-                     className="contact-social"
-                  >
-                     LinkedIn <MdArrowOutward />
-                  </a>
-                  <a
-                     href="http://instagram.com/devxubs/"
-                     target="_blank"
-                     rel="noreferrer"
-                     data-cursor="disable"
-                     className="contact-social"
-                  >
-                     Instagram <MdArrowOutward />
-                  </a>
-               </div>
-            </div>
-            <div className="contact-box contact-copyright">
-               <h2>
-                  Designed and Developed by <span>Xubayer Ahmed</span>
-               </h2>
-               <h5>
-                  <MdCopyright /> 2026
-               </h5>
-            </div>
-         </div>
-      </div>
-   );
-};
+              Have a project in mind or a role to fill? Let's discuss and build something amazing
+              together.
+            </p>
+            <a className="btn btn-primary" href="mailto:devxub@gmail.com" style={{ marginTop: 22 }}>
+              Get In Touch <ArrowRight size={16} />
+            </a>
+          </div>
 
-export default Contact;
+          <div className="contact-items">
+            {items.map((i) => (
+              <div className="contact-item" key={i.title}>
+                <span className="ic">
+                  <i.icon size={22} />
+                </span>
+                <h4>{i.title}</h4>
+                {i.href ? (
+                  <a href={i.href}>{i.value}</a>
+                ) : (
+                  <span>{i.value}</span>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
