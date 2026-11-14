@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { ArrowUpRight } from "lucide-react";
-import { SiGithub } from "react-icons/si";
 import { projectFilters, projects, type ProjectCategory } from "../data/projects";
 
 type Filter = "All" | ProjectCategory;
@@ -55,16 +54,13 @@ export default function Projects() {
                     <span key={t}>{t}</span>
                   ))}
                 </div>
-                <div className="project-links">
-                  {p.liveUrl && (
+                {p.liveUrl && (
+                  <div className="project-links">
                     <a className="live" href={p.liveUrl} target="_blank" rel="noreferrer">
                       Live Demo <ArrowUpRight size={15} />
                     </a>
-                  )}
-                  <a className="code" href={p.githubUrl} target="_blank" rel="noreferrer">
-                    <SiGithub size={15} /> View Code
-                  </a>
-                </div>
+                  </div>
+                )}
               </div>
             </article>
           ))}
