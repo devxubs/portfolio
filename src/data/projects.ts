@@ -91,7 +91,7 @@ export const projects: Project[] = [
     image: null,
     initials: "SP",
     githubUrl: "https://github.com/devxubs/sijan-video-editor-portfolio",
-    liveUrl: "https://sijan-video-editor.vercel.app",
+    liveUrl: "https://video-editor-devxub.vercel.app",
     status: "Live",
     featured: false,
   },
